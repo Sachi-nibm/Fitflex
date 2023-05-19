@@ -51,7 +51,6 @@ class ViewController: UIViewController {
         scrollView.addSubview(getStarted)
         
         NSLayoutConstraint.activate([
-            //scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             scrollView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
             scrollView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor),
             scrollView.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor),
