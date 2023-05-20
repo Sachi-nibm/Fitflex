@@ -7,15 +7,28 @@
 
 import UIKit
 
-class BasicInfoViewController: UIViewController {
+class BasicInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
     
     let ageInput = UITextField()
     let heightInput = UITextField()
     let weightInput = UITextField()
+    let pickerInput = UITextField()
     let tip = UILabel()
-
+    let helper = UILabel()
+    
+    let pickerView = UIPickerView()
+    var selectedGoal: String?
+    var goalList = ["Weight Loss", "Balanced", "Muscle Building"]
+    
+    var age :Int = 0
+    var height :Double = 0
+    var weight :Double = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        createPickerView()
+        dismissPickerView()
+        changePickerVal(0)
         
         view.backgroundColor = .systemBackground
         title = "Basic Information"
@@ -40,6 +53,7 @@ class BasicInfoViewController: UIViewController {
         ageInput.layer.shadowOpacity = 0
         ageInput.layer.shadowOffset = .zero
         ageInput.layer.shadowRadius = 3
+        ageInput.addTarget(self, action: #selector(calcBMI), for: .editingChanged)
         scrollView.addSubview(ageInput)
         
         let ageLabel = UILabel()
@@ -57,6 +71,7 @@ class BasicInfoViewController: UIViewController {
         heightInput.layer.shadowOpacity = 0
         heightInput.layer.shadowOffset = .zero
         heightInput.layer.shadowRadius = 3
+        heightInput.addTarget(self, action: #selector(calcBMI), for: .editingChanged)
         scrollView.addSubview(heightInput)
         
         let heightLabel = UILabel()
@@ -74,6 +89,7 @@ class BasicInfoViewController: UIViewController {
         weightInput.layer.shadowOpacity = 0
         weightInput.layer.shadowOffset = .zero
         weightInput.layer.shadowRadius = 3
+        weightInput.addTarget(self, action: #selector(calcBMI), for: .editingChanged)
         scrollView.addSubview(weightInput)
         
         let weightLabel = UILabel()
@@ -84,11 +100,25 @@ class BasicInfoViewController: UIViewController {
         
         tip.translatesAutoresizingMaskIntoConstraints = false
         tip.text = " "
-        tip.font = .preferredFont(forTextStyle: .subheadline)
-        tip.textColor = .systemRed
+        tip.font = .preferredFont(forTextStyle: .headline)
+        tip.textColor = .label
         tip.numberOfLines = 0
         tip.textAlignment = .center
         scrollView.addSubview(tip)
+        
+        helper.translatesAutoresizingMaskIntoConstraints = false
+        helper.text = " \n\n "
+        helper.font = .preferredFont(forTextStyle: .subheadline)
+        helper.numberOfLines = 0
+        helper.textAlignment = .center
+        scrollView.addSubview(helper)
+        
+        pickerInput.translatesAutoresizingMaskIntoConstraints = false
+        pickerInput.borderStyle = .roundedRect
+        pickerInput.textAlignment = .center
+        pickerInput.font = .preferredFont(forTextStyle: .headline)
+        pickerInput.delegate = self
+        scrollView.addSubview(pickerInput)
         
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -104,12 +134,12 @@ class BasicInfoViewController: UIViewController {
             scrollView.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
-            logo.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 60),
+            logo.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 30),
             logo.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
             logo.widthAnchor.constraint(equalToConstant: 80),
             logo.heightAnchor.constraint(equalToConstant: 50),
             
-            ageInput.topAnchor.constraint(equalTo: logo.bottomAnchor, constant: 60),
+            ageInput.topAnchor.constraint(equalTo: logo.bottomAnchor, constant: 40),
             ageInput.heightAnchor.constraint(equalToConstant: 40),
             ageInput.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor, constant: -25),
             ageInput.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.6),
@@ -140,7 +170,15 @@ class BasicInfoViewController: UIViewController {
             tip.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.8),
             tip.topAnchor.constraint(equalTo: weightInput.bottomAnchor, constant: 30),
             
-            button.topAnchor.constraint(equalTo: tip.bottomAnchor, constant: 100),
+            helper.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
+            helper.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.8),
+            helper.topAnchor.constraint(equalTo: tip.bottomAnchor, constant: 20),
+            
+            pickerInput.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
+            pickerInput.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.7),
+            pickerInput.topAnchor.constraint(equalTo: helper.bottomAnchor, constant: 30),
+            
+            button.topAnchor.constraint(equalTo: pickerInput.bottomAnchor, constant: 20),
             button.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -40),
             button.widthAnchor.constraint(equalToConstant: 200),
             button.heightAnchor.constraint(equalToConstant: 50),
@@ -149,35 +187,168 @@ class BasicInfoViewController: UIViewController {
     }
     
     @objc func validateInputAndNext() {
+        let inputsValid = checkIfValid(true)
+        if (!inputsValid) {
+            tip.text = "please fill all fields with valid values"
+            tip.textColor = .systemRed
+        } else {
+            let userStorage = UserDefaults.standard
+            userStorage.set(age, forKey: "AGE")
+            userStorage.set(height, forKey: "HEIGHT")
+            userStorage.set(weight, forKey: "WEIGHT")
+            userStorage.set(selectedGoal?.prefix(1), forKey: "TYPE")
+            navigationController?.pushViewController(SelectPlanViewController(), animated: true)
+        }
+    }
+    
+    @objc func calcBMI() {
+        let inputsValid = checkIfValid(false)
+        if (inputsValid) {
+            let bmi = (weight/((height/100) * (height/100)))
+            var status = "";
+            var helperText = "We recommend ";
+            if (age >= 20) {
+                if (bmi < 18.5) {
+                    status = "UNDERWEIGHT"
+                    helperText += "not to do any "
+                    changePickerVal(2)
+                } else if (bmi >= 18.5 && bmi <= 24.9) {
+                    status = "HEALTHY"
+                    helperText += "you to do MUSCLE BUILDING "
+                    changePickerVal(2)
+                } else if (bmi > 24.9 && bmi <= 29.9) {
+                    status = "OVERWEIGHT"
+                    helperText += "you to do BALANCED "
+                    changePickerVal(1)
+                } else {
+                    status = "OBESE"
+                    helperText += "you to do WEIGHT LOSS "
+                    changePickerVal(0)
+                }
+            } else {
+                if (bmi < 16.5) {
+                    status = "UNDERWEIGHT"
+                    helperText += "not to do any "
+                    changePickerVal(2)
+                } else if (bmi >= 16.5 && bmi < 23.1) {
+                    status = "HEALTHY"
+                    helperText += "you to do MUSCLE BUILDING "
+                    changePickerVal(2)
+                } else if (bmi >= 23.1 && bmi <= 28.1) {
+                    status = "OVERWEIGHT"
+                    helperText += "you to do BALANCED "
+                    changePickerVal(1)
+                } else {
+                    status = "OBESE"
+                    helperText += "you to do WEIGHT LOSS "
+                    changePickerVal(0)
+                }
+            }
+            helperText += "exercises, Alternatively you can set your own goal from the following list."
+            tip.text = "BMI - \(String(format: "%.1f", bmi)) | \(status)"
+            helper.text = helperText
+            tip.textColor = .label
+        }
+    }
+    
+    func checkIfValid(_ showValid: Bool) -> Bool {
         var inputsValid = true;
         
         if (ageInput.text?.range(of: "^\\d+$",options: .regularExpression) != nil) {
-            ageInput.layer.shadowOpacity = 0
+            age = Int(ageInput.text ?? "0") ?? 0
+            if (age < 4 || age >= 100) {
+                if (showValid) {
+                    ageInput.layer.shadowOpacity = 1
+                    ageInput.shake()
+                }
+                inputsValid = false
+            } else {
+                ageInput.layer.shadowOpacity = 0
+            }
         } else {
-            ageInput.layer.shadowOpacity = 1
-            ageInput.shake()
-            inputsValid = false
-        }
-        if (heightInput.text?.range(of: "^\\d+(\\.\\d{0,})?$",options: .regularExpression) != nil) {
-            heightInput.layer.shadowOpacity = 0
-        } else {
-            heightInput.layer.shadowOpacity = 1
-            heightInput.shake()
-            inputsValid = false
-        }
-        if (weightInput.text?.range(of: "^\\d+(\\.\\d{0,})?$",options: .regularExpression) != nil) {
-            weightInput.layer.shadowOpacity = 0
-        } else {
-            weightInput.layer.shadowOpacity = 1
-            weightInput.shake()
+            if (showValid) {
+                ageInput.layer.shadowOpacity = 1
+                ageInput.shake()
+            }
             inputsValid = false
         }
         
-        if (inputsValid) {
-            tip.text = " "
+        if (heightInput.text?.range(of: "^\\d+(\\.\\d{0,})?$",options: .regularExpression) != nil) {
+            height = Double(heightInput.text ?? "0") ?? 0
+            if (height < 30 || height >= 260) {
+                if (showValid) {
+                    heightInput.layer.shadowOpacity = 1
+                    heightInput.shake()
+                }
+                inputsValid = false
+            } else {
+                heightInput.layer.shadowOpacity = 0
+            }
         } else {
-            tip.text = "please fill all fields with valid values"
+            if (showValid) {
+                heightInput.layer.shadowOpacity = 1
+                heightInput.shake()
+            }
+            inputsValid = false
         }
+        
+        if (weightInput.text?.range(of: "^\\d+(\\.\\d{0,})?$",options: .regularExpression) != nil) {
+            weight = Double(weightInput.text ?? "0") ?? 0
+            if (weight < 2 || weight >= 500) {
+                if (showValid) {
+                    weightInput.layer.shadowOpacity = 1
+                    weightInput.shake()
+                }
+                inputsValid = false
+            } else {
+                weightInput.layer.shadowOpacity = 0
+            }
+        } else {
+            if (showValid) {
+                weightInput.layer.shadowOpacity = 1
+                weightInput.shake()
+            }
+            inputsValid = false
+        }
+        
+        return inputsValid;
     }
-
+    
+    func changePickerVal(_ index : Int) {
+        pickerView.selectRow(index, inComponent: 0, animated: false)
+        selectedGoal = goalList[index]
+        pickerInput.text = selectedGoal
+    }
+    
+    // https://medium.com/@raj.amsarajm93/create-dropdown-using-uipickerview-4471e5c7d898
+    func createPickerView() {
+        pickerView.delegate = self
+        pickerInput.inputView = pickerView
+    }
+    func dismissPickerView() {
+        let toolBar = UIToolbar()
+        toolBar.sizeToFit()
+        let button = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(self.action))
+        toolBar.setItems([UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil), button], animated: true);
+        toolBar.isUserInteractionEnabled = true
+        pickerInput.inputAccessoryView = toolBar
+    }
+    @objc func action() {
+        view.endEditing(true)
+    }
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return goalList.count
+    }
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return goalList[row]
+    }
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        selectedGoal = goalList[row]
+        pickerInput.text = selectedGoal
+    }
+    
 }
