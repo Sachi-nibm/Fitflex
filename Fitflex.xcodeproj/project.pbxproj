@@ -15,6 +15,7 @@
 		E68845362A15653B00800802 /* BasicInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68845352A15653B00800802 /* BasicInfoViewController.swift */; };
 		E6B9A6892A18205C00F8E6BC /* Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B9A6882A18205C00F8E6BC /* Extentions.swift */; };
 		E6B9A68B2A1861A000F8E6BC /* SelectPlanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B9A68A2A1861A000F8E6BC /* SelectPlanViewController.swift */; };
+		E6B9A68E2A196B5000F8E6BC /* PlanCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B9A68D2A196B5000F8E6BC /* PlanCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		E68845352A15653B00800802 /* BasicInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicInfoViewController.swift; sourceTree = "<group>"; };
 		E6B9A6882A18205C00F8E6BC /* Extentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extentions.swift; sourceTree = "<group>"; };
 		E6B9A68A2A1861A000F8E6BC /* SelectPlanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPlanViewController.swift; sourceTree = "<group>"; };
+		E6B9A68D2A196B5000F8E6BC /* PlanCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +62,7 @@
 		E65ED3BE2A12E9120062DC4E /* Fitflex */ = {
 			isa = PBXGroup;
 			children = (
+				E6B9A68C2A196A5E00F8E6BC /* Cells */,
 				E6B9A6872A18201900F8E6BC /* helpers */,
 				E65ED3BF2A12E9120062DC4E /* AppDelegate.swift */,
 				E65ED3C12A12E9120062DC4E /* SceneDelegate.swift */,
@@ -79,6 +82,14 @@
 				E6B9A6882A18205C00F8E6BC /* Extentions.swift */,
 			);
 			path = helpers;
+			sourceTree = "<group>";
+		};
+		E6B9A68C2A196A5E00F8E6BC /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				E6B9A68D2A196B5000F8E6BC /* PlanCollectionViewCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -156,6 +167,7 @@
 				E6B9A6892A18205C00F8E6BC /* Extentions.swift in Sources */,
 				E65ED3C02A12E9120062DC4E /* AppDelegate.swift in Sources */,
 				E65ED3C22A12E9120062DC4E /* SceneDelegate.swift in Sources */,
+				E6B9A68E2A196B5000F8E6BC /* PlanCollectionViewCell.swift in Sources */,
 				E6B9A68B2A1861A000F8E6BC /* SelectPlanViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

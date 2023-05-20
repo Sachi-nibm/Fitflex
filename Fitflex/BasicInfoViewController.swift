@@ -30,6 +30,18 @@ class BasicInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerV
         dismissPickerView()
         changePickerVal(0)
         
+        let userStorage = UserDefaults.standard
+        
+        if (userStorage.string(forKey: "AGE") != "") {
+            ageInput.text = userStorage.string(forKey: "AGE")
+        }
+        if (userStorage.string(forKey: "HEIGHT") != "") {
+            heightInput.text = userStorage.string(forKey: "HEIGHT")
+        }
+        if (userStorage.string(forKey: "WEIGHT") != "") {
+            weightInput.text = userStorage.string(forKey: "WEIGHT")
+        }
+        
         view.backgroundColor = .systemBackground
         title = "Basic Information"
         navigationController?.navigationBar.prefersLargeTitles = false
@@ -122,7 +134,7 @@ class BasicInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerV
         
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("SELECT PLAN", for: .normal)
+        button.setTitle("NEXT", for: .normal)
         button.backgroundColor = .systemBlue
         button.layer.cornerRadius = 25
         button.addTarget(self, action: #selector(validateInputAndNext), for: .touchUpInside)
@@ -180,10 +192,12 @@ class BasicInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerV
             
             button.topAnchor.constraint(equalTo: pickerInput.bottomAnchor, constant: 20),
             button.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -40),
-            button.widthAnchor.constraint(equalToConstant: 200),
+            button.widthAnchor.constraint(equalToConstant: 150),
             button.heightAnchor.constraint(equalToConstant: 50),
             button.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor)
         ])
+        
+        self.calcBMI()
     }
     
     @objc func validateInputAndNext() {
@@ -197,7 +211,9 @@ class BasicInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerV
             userStorage.set(height, forKey: "HEIGHT")
             userStorage.set(weight, forKey: "WEIGHT")
             userStorage.set(selectedGoal?.prefix(1), forKey: "TYPE")
-            navigationController?.pushViewController(SelectPlanViewController(), animated: true)
+            let selectPlanView = SelectPlanViewController()
+            selectPlanView.title = "Select \(selectedGoal ?? "Exercise") Plan"
+            navigationController?.pushViewController(selectPlanView, animated: true)
         }
     }
     
