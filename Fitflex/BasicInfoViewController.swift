@@ -56,7 +56,7 @@ class BasicInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerV
         logo.contentMode = .scaleAspectFit
         scrollView.addSubview(logo)
         
-        ageInput.placeholder = "Age"
+        ageInput.placeholder = "years"
         ageInput.textAlignment = .right
         ageInput.translatesAutoresizingMaskIntoConstraints = false;
         ageInput.borderStyle = .roundedRect
@@ -70,11 +70,11 @@ class BasicInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerV
         
         let ageLabel = UILabel()
         ageLabel.translatesAutoresizingMaskIntoConstraints = false
-        ageLabel.text = "years"
+        ageLabel.text = "Age"
         ageLabel.font = .preferredFont(forTextStyle: .headline)
         scrollView.addSubview(ageLabel)
         
-        heightInput.placeholder = "Height"
+        heightInput.placeholder = "cm"
         heightInput.textAlignment = .right
         heightInput.translatesAutoresizingMaskIntoConstraints = false;
         heightInput.borderStyle = .roundedRect
@@ -88,11 +88,11 @@ class BasicInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerV
         
         let heightLabel = UILabel()
         heightLabel.translatesAutoresizingMaskIntoConstraints = false
-        heightLabel.text = "cm"
+        heightLabel.text = "Height"
         heightLabel.font = .preferredFont(forTextStyle: .headline)
         scrollView.addSubview(heightLabel)
         
-        weightInput.placeholder = "Weight"
+        weightInput.placeholder = "kg"
         weightInput.textAlignment = .right
         weightInput.translatesAutoresizingMaskIntoConstraints = false;
         weightInput.borderStyle = .roundedRect
@@ -106,7 +106,7 @@ class BasicInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerV
         
         let weightLabel = UILabel()
         weightLabel.translatesAutoresizingMaskIntoConstraints = false
-        weightLabel.text = "kg"
+        weightLabel.text = "Weight"
         weightLabel.font = .preferredFont(forTextStyle: .headline)
         scrollView.addSubview(weightLabel)
         
@@ -153,30 +153,30 @@ class BasicInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerV
             
             ageInput.topAnchor.constraint(equalTo: logo.bottomAnchor, constant: 40),
             ageInput.heightAnchor.constraint(equalToConstant: 40),
-            ageInput.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor, constant: -25),
+            ageInput.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor, constant: 30),
             ageInput.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.6),
             
-            ageLabel.leftAnchor.constraint(equalTo: ageInput.rightAnchor, constant: 10),
+            ageLabel.rightAnchor.constraint(equalTo: ageInput.leftAnchor, constant: -10),
             ageLabel.centerYAnchor.constraint(equalTo: ageInput.centerYAnchor),
-            ageLabel.widthAnchor.constraint(equalToConstant: 50),
+            ageLabel.widthAnchor.constraint(equalToConstant: 60),
             
             heightInput.topAnchor.constraint(equalTo: ageInput.bottomAnchor, constant: 30),
             heightInput.heightAnchor.constraint(equalToConstant: 40),
-            heightInput.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor, constant: -25),
+            heightInput.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor, constant: 30),
             heightInput.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.6),
             
-            heightLabel.leftAnchor.constraint(equalTo: heightInput.rightAnchor, constant: 10),
+            heightLabel.rightAnchor.constraint(equalTo: heightInput.leftAnchor, constant: -10),
             heightLabel.centerYAnchor.constraint(equalTo: heightInput.centerYAnchor),
-            heightLabel.widthAnchor.constraint(equalToConstant: 50),
+            heightLabel.widthAnchor.constraint(equalToConstant: 60),
             
             weightInput.topAnchor.constraint(equalTo: heightInput.bottomAnchor, constant: 30),
             weightInput.heightAnchor.constraint(equalToConstant: 40),
-            weightInput.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor, constant: -25),
+            weightInput.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor, constant: 30),
             weightInput.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.6),
             
-            weightLabel.leftAnchor.constraint(equalTo: weightInput.rightAnchor, constant: 10),
+            weightLabel.rightAnchor.constraint(equalTo: weightInput.leftAnchor, constant: -10),
             weightLabel.centerYAnchor.constraint(equalTo: weightInput.centerYAnchor),
-            weightLabel.widthAnchor.constraint(equalToConstant: 50),
+            weightLabel.widthAnchor.constraint(equalToConstant: 60),
             
             tip.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
             tip.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.8),
@@ -198,6 +198,13 @@ class BasicInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerV
         ])
         
         self.calcBMI()
+        self.hideKeyboardWhenTappedAround()
+        self.addKeyboardObserver()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.removeKeyboardObserver()
     }
     
     @objc func validateInputAndNext() {
@@ -213,6 +220,7 @@ class BasicInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerV
             userStorage.set(selectedGoal?.prefix(1), forKey: "TYPE")
             let selectPlanView = SelectPlanViewController()
             selectPlanView.title = "Select \(selectedGoal ?? "Exercise") Plan"
+            selectPlanView.selectedGoal = selectedGoal ?? "Balanced"
             navigationController?.pushViewController(selectPlanView, animated: true)
         }
     }

@@ -13,6 +13,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         view.backgroundColor = .systemBackground
+        navigationController?.navigationBar.backgroundColor = .systemBackground
         
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -77,6 +78,13 @@ class ViewController: UIViewController {
             getStarted.widthAnchor.constraint(equalToConstant: 200),
             getStarted.heightAnchor.constraint(equalToConstant: 50),
         ])
+        
+        self.addKeyboardObserver()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.removeKeyboardObserver()
     }
 
     @objc func goToBasicInfo() {

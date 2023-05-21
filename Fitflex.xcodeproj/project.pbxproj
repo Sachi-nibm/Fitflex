@@ -16,6 +16,8 @@
 		E6B9A6892A18205C00F8E6BC /* Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B9A6882A18205C00F8E6BC /* Extentions.swift */; };
 		E6B9A68B2A1861A000F8E6BC /* SelectPlanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B9A68A2A1861A000F8E6BC /* SelectPlanViewController.swift */; };
 		E6B9A68E2A196B5000F8E6BC /* PlanCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B9A68D2A196B5000F8E6BC /* PlanCollectionViewCell.swift */; };
+		E6B9A6A32A1A075F00F8E6BC /* APICalls.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B9A6A22A1A075F00F8E6BC /* APICalls.swift */; };
+		E6B9A6A62A1A088100F8E6BC /* ExerciseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B9A6A52A1A088100F8E6BC /* ExerciseDTO.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +32,8 @@
 		E6B9A6882A18205C00F8E6BC /* Extentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extentions.swift; sourceTree = "<group>"; };
 		E6B9A68A2A1861A000F8E6BC /* SelectPlanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPlanViewController.swift; sourceTree = "<group>"; };
 		E6B9A68D2A196B5000F8E6BC /* PlanCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanCollectionViewCell.swift; sourceTree = "<group>"; };
+		E6B9A6A22A1A075F00F8E6BC /* APICalls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICalls.swift; sourceTree = "<group>"; };
+		E6B9A6A52A1A088100F8E6BC /* ExerciseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDTO.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,8 +66,9 @@
 		E65ED3BE2A12E9120062DC4E /* Fitflex */ = {
 			isa = PBXGroup;
 			children = (
+				E6B9A6A42A1A084D00F8E6BC /* Models */,
 				E6B9A68C2A196A5E00F8E6BC /* Cells */,
-				E6B9A6872A18201900F8E6BC /* helpers */,
+				E6B9A6872A18201900F8E6BC /* Helpers */,
 				E65ED3BF2A12E9120062DC4E /* AppDelegate.swift */,
 				E65ED3C12A12E9120062DC4E /* SceneDelegate.swift */,
 				E65ED3C32A12E9120062DC4E /* ViewController.swift */,
@@ -76,12 +81,13 @@
 			path = Fitflex;
 			sourceTree = "<group>";
 		};
-		E6B9A6872A18201900F8E6BC /* helpers */ = {
+		E6B9A6872A18201900F8E6BC /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
 				E6B9A6882A18205C00F8E6BC /* Extentions.swift */,
+				E6B9A6A22A1A075F00F8E6BC /* APICalls.swift */,
 			);
-			path = helpers;
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		E6B9A68C2A196A5E00F8E6BC /* Cells */ = {
@@ -90,6 +96,14 @@
 				E6B9A68D2A196B5000F8E6BC /* PlanCollectionViewCell.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		E6B9A6A42A1A084D00F8E6BC /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				E6B9A6A52A1A088100F8E6BC /* ExerciseDTO.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -164,8 +178,10 @@
 			files = (
 				E65ED3C42A12E9120062DC4E /* ViewController.swift in Sources */,
 				E68845362A15653B00800802 /* BasicInfoViewController.swift in Sources */,
+				E6B9A6A32A1A075F00F8E6BC /* APICalls.swift in Sources */,
 				E6B9A6892A18205C00F8E6BC /* Extentions.swift in Sources */,
 				E65ED3C02A12E9120062DC4E /* AppDelegate.swift in Sources */,
+				E6B9A6A62A1A088100F8E6BC /* ExerciseDTO.swift in Sources */,
 				E65ED3C22A12E9120062DC4E /* SceneDelegate.swift in Sources */,
 				E6B9A68E2A196B5000F8E6BC /* PlanCollectionViewCell.swift in Sources */,
 				E6B9A68B2A1861A000F8E6BC /* SelectPlanViewController.swift in Sources */,
@@ -311,8 +327,7 @@
 				INFOPLIST_FILE = Fitflex/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -337,8 +352,7 @@
 				INFOPLIST_FILE = Fitflex/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
