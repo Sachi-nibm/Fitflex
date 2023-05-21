@@ -20,7 +20,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
-        window?.rootViewController = UINavigationController(rootViewController: SelectPlanViewController())
+        let rootView :UIViewController;
+        let userStorage = UserDefaults.standard
+        let data = userStorage.array(forKey: "SAVED_PLAN")
+        if let data = data {
+            if (data.isEmpty) {
+                rootView = HomeViewController()
+            } else {
+                rootView = ViewController()
+            }
+        } else {
+            rootView = ViewController()
+        }
+        
+        window?.rootViewController = UINavigationController(rootViewController: rootView)
         window?.makeKeyAndVisible()
     }
 

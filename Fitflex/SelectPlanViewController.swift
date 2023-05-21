@@ -7,8 +7,11 @@
 
 import UIKit
 
-class SelectPlanViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-
+protocol PlanCellDelegate {
+    func cellClicked(sender: [ExerciseDTO])
+}
+class SelectPlanViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, PlanCellDelegate {
+    
     var collectionView: UICollectionView! = nil
     var selectedGoal = "Balanced"
     var exercisePlans :[[ExerciseDTO]] = []
@@ -71,19 +74,25 @@ class SelectPlanViewController: UIViewController, UICollectionViewDataSource, UI
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PlanCollectionViewCell.reuseIdentifier, for: indexPath) as! PlanCollectionViewCell
+        cell.delegate = self
         cell.layer.borderColor = UIColor.black.cgColor
         cell.layer.borderWidth = 1
+        cell.layer.cornerRadius = 6
+        cell.backgroundColor = .systemGray5
         cell.exerciseList = exercisePlans[indexPath.row]
-        if (cell.image.image!.isSymbolImage) {
-            APICalls.retrieveImage(exercisePlans[indexPath.row][1].imageURL) {(image) in
-                if let img = image {
-                    cell.image.image = img
-                    cell.image.contentMode = .scaleAspectFill
-                    collectionView.reloadData()
-                }
+        APICalls.retrieveImage(exercisePlans[indexPath.row][1].imageURL) {(image) in
+            if let img = image {
+                cell.image.contentMode = .scaleAspectFill
+                cell.image.image = img
             }
         }
         return cell
     }
     
+    func cellClicked(sender: [ExerciseDTO]) {
+        let exerciseList = ExerciseListViewController()
+        exerciseList.title = "Plan Details"
+        exerciseList.exerciseList = sender
+        navigationController?.pushViewController(exerciseList, animated: true)
+    }
 }

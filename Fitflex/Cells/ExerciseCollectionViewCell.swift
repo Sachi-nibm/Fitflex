@@ -2,48 +2,34 @@
 //  PlanCollectionViewCell.swift
 //  Fitflex
 //
-//  Created by Sachini Perera on 2023-05-20.
+//  Created by Sachini Perera on 2023-05-21.
 //
 
 import UIKit
 
-class PlanCollectionViewCell: UICollectionViewCell {
-    var delegate :PlanCellDelegate!
+class ExerciseCollectionViewCell: UICollectionViewCell {
+    var delegate :ExerciseCellDelegate!
     
-    var exerciseList :[ExerciseDTO] = [] {
+    var exercise :ExerciseDTO! {
         didSet {
-            self.count.text = "\(exerciseList.count) Exercises"
-            var calories = 0
-            var duration = 0
-            var difficultyStr = ""
-            var count = 0
-            for exercise in exerciseList {
-                duration += exercise.durationMinutes
-                calories += (exercise.caloriesBurnedPerMinute * exercise.durationMinutes)
-                if (count == 0 && exercise.difficulty == "Easy") {
-                    difficultyStr = "Easy"
-                    count += 1
-                } else if (count <= 1 && exercise.difficulty == "Intermediate") {
-                    difficultyStr = "Intermediate"
-                    count += 1
-                } else if (count <= 2 && exercise.difficulty == "Moderate") {
-                    difficultyStr = "Moderate"
-                    count += 1
-                }
+            self.nameLabel.text = "\(exercise.name)"
+            self.duration.text = "\(exercise.durationMinutes) minutes"
+            self.calories.text = "\(exercise.caloriesBurnedPerMinute * exercise.durationMinutes) kcal"
+            self.difficulty.text = exercise.difficulty
+            if (exercise.category.prefix(1) != "F") {
+                specialContainer.layer.opacity = 0
             }
-            self.duration.text = "\(duration) minutes"
-            self.calories.text = "\(calories) kcal"
-            self.difficulty.text = difficultyStr
         }
     }
     
+    let specialContainer = UIView()
     let difficulty = UILabel()
-    let count = UILabel()
+    let nameLabel = UILabel()
     let calories = UILabel()
     let duration = UILabel()
     let image = UIImageView(image: UIImage(systemName: "dumbbell")?.withRenderingMode(.alwaysTemplate))
     
-    static let reuseIdentifier = "PlanCollectionViewCell"
+    static let reuseIdentifier = "ExerciseCollectionViewCell"
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -62,7 +48,6 @@ class PlanCollectionViewCell: UICollectionViewCell {
         image.translatesAutoresizingMaskIntoConstraints = false
         image.contentMode = .scaleAspectFit
         image.clipsToBounds = true
-        image.clipsToBounds = true
         image.layer.cornerRadius = 6
         image.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         contentView.addSubview(image)
@@ -79,11 +64,27 @@ class PlanCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(difficultyContainer)
         difficultyContainer.addSubview(difficulty)
         
-        count.translatesAutoresizingMaskIntoConstraints = false
-        count.text = "\(exerciseList.count) Exercises"
-        count.font = .preferredFont(forTextStyle: .headline)
-        count.textAlignment = .center
-        contentView.addSubview(count)
+        specialContainer.translatesAutoresizingMaskIntoConstraints = false
+        let specialText = UILabel()
+        specialText.translatesAutoresizingMaskIntoConstraints = false
+        specialText.text = "Warm Up"
+        specialText.font = .preferredFont(forTextStyle: .headline)
+        specialText.textAlignment = .center
+        specialContainer.backgroundColor = .systemPink
+        specialContainer.layer.cornerRadius = 10
+        specialContainer.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMaxXMinYCorner]
+        contentView.addSubview(specialContainer)
+        specialContainer.addSubview(specialText)
+        
+        nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        nameLabel.text = "NAME"
+        nameLabel.font = .preferredFont(forTextStyle: .headline)
+        nameLabel.textAlignment = .left
+        nameLabel.numberOfLines = 0
+        nameLabel.font = .boldSystemFont(ofSize: 20)
+        nameLabel.adjustsFontSizeToFitWidth = true
+        nameLabel.adjustsFontForContentSizeCategory = true
+        contentView.addSubview(nameLabel)
         
         calories.translatesAutoresizingMaskIntoConstraints = false
         calories.text = "\(223) kcal"
@@ -111,12 +112,22 @@ class PlanCollectionViewCell: UICollectionViewCell {
             difficulty.leftAnchor.constraint(equalTo: difficultyContainer.leftAnchor, constant: 8),
             difficulty.topAnchor.constraint(equalTo: difficultyContainer.topAnchor, constant: 5),
             difficulty.bottomAnchor.constraint(equalTo: difficultyContainer.bottomAnchor, constant: -5),
+            
+            specialContainer.topAnchor.constraint(equalTo: image.bottomAnchor),
+            specialContainer.leftAnchor.constraint(equalTo: contentView.leftAnchor),
+            
+            specialText.rightAnchor.constraint(equalTo: specialContainer.rightAnchor, constant: -8),
+            specialText.leftAnchor.constraint(equalTo: specialContainer.leftAnchor, constant: 5),
+            specialText.topAnchor.constraint(equalTo: specialContainer.topAnchor, constant: 5),
+            specialText.bottomAnchor.constraint(equalTo: specialContainer.bottomAnchor, constant: -5),
 
-            count.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 5),
-            count.topAnchor.constraint(equalTo: difficultyContainer.bottomAnchor),
+            nameLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 5),
+            nameLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -5),
+            nameLabel.heightAnchor.constraint(equalToConstant: 50),
+            nameLabel.topAnchor.constraint(equalTo: difficultyContainer.bottomAnchor),
 
             calories.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 5),
-            calories.topAnchor.constraint(equalTo: count.bottomAnchor, constant: 5),
+            calories.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 5),
 
             duration.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 5),
             duration.topAnchor.constraint(equalTo: calories.bottomAnchor, constant: 5),
@@ -124,6 +135,6 @@ class PlanCollectionViewCell: UICollectionViewCell {
     }
     
     @objc func cellClicked() {
-        delegate.cellClicked(sender: exerciseList)
+        delegate.cellClicked(sender: exercise)
     }
 }

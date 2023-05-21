@@ -18,6 +18,10 @@
 		E6B9A68E2A196B5000F8E6BC /* PlanCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B9A68D2A196B5000F8E6BC /* PlanCollectionViewCell.swift */; };
 		E6B9A6A32A1A075F00F8E6BC /* APICalls.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B9A6A22A1A075F00F8E6BC /* APICalls.swift */; };
 		E6B9A6A62A1A088100F8E6BC /* ExerciseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B9A6A52A1A088100F8E6BC /* ExerciseDTO.swift */; };
+		E6B9A6A82A1A3F1100F8E6BC /* ExerciseListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B9A6A72A1A3F1100F8E6BC /* ExerciseListViewController.swift */; };
+		E6B9A6AA2A1A40BE00F8E6BC /* ExerciseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B9A6A92A1A40BE00F8E6BC /* ExerciseCollectionViewCell.swift */; };
+		E6B9A6AC2A1A4D2F00F8E6BC /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B9A6AB2A1A4D2F00F8E6BC /* HomeViewController.swift */; };
+		E6B9A6AE2A1A52D600F8E6BC /* ScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B9A6AD2A1A52D600F8E6BC /* ScheduleViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +38,10 @@
 		E6B9A68D2A196B5000F8E6BC /* PlanCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanCollectionViewCell.swift; sourceTree = "<group>"; };
 		E6B9A6A22A1A075F00F8E6BC /* APICalls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICalls.swift; sourceTree = "<group>"; };
 		E6B9A6A52A1A088100F8E6BC /* ExerciseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDTO.swift; sourceTree = "<group>"; };
+		E6B9A6A72A1A3F1100F8E6BC /* ExerciseListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseListViewController.swift; sourceTree = "<group>"; };
+		E6B9A6A92A1A40BE00F8E6BC /* ExerciseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseCollectionViewCell.swift; sourceTree = "<group>"; };
+		E6B9A6AB2A1A4D2F00F8E6BC /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		E6B9A6AD2A1A52D600F8E6BC /* ScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +85,9 @@
 				E65ED3CD2A12E9140062DC4E /* Info.plist */,
 				E68845352A15653B00800802 /* BasicInfoViewController.swift */,
 				E6B9A68A2A1861A000F8E6BC /* SelectPlanViewController.swift */,
+				E6B9A6A72A1A3F1100F8E6BC /* ExerciseListViewController.swift */,
+				E6B9A6AB2A1A4D2F00F8E6BC /* HomeViewController.swift */,
+				E6B9A6AD2A1A52D600F8E6BC /* ScheduleViewController.swift */,
 			);
 			path = Fitflex;
 			sourceTree = "<group>";
@@ -93,6 +104,7 @@
 		E6B9A68C2A196A5E00F8E6BC /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				E6B9A6A92A1A40BE00F8E6BC /* ExerciseCollectionViewCell.swift */,
 				E6B9A68D2A196B5000F8E6BC /* PlanCollectionViewCell.swift */,
 			);
 			path = Cells;
@@ -176,15 +188,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E6B9A6AE2A1A52D600F8E6BC /* ScheduleViewController.swift in Sources */,
+				E6B9A6A82A1A3F1100F8E6BC /* ExerciseListViewController.swift in Sources */,
 				E65ED3C42A12E9120062DC4E /* ViewController.swift in Sources */,
 				E68845362A15653B00800802 /* BasicInfoViewController.swift in Sources */,
 				E6B9A6A32A1A075F00F8E6BC /* APICalls.swift in Sources */,
+				E6B9A6AA2A1A40BE00F8E6BC /* ExerciseCollectionViewCell.swift in Sources */,
 				E6B9A6892A18205C00F8E6BC /* Extentions.swift in Sources */,
 				E65ED3C02A12E9120062DC4E /* AppDelegate.swift in Sources */,
 				E6B9A6A62A1A088100F8E6BC /* ExerciseDTO.swift in Sources */,
 				E65ED3C22A12E9120062DC4E /* SceneDelegate.swift in Sources */,
 				E6B9A68E2A196B5000F8E6BC /* PlanCollectionViewCell.swift in Sources */,
 				E6B9A68B2A1861A000F8E6BC /* SelectPlanViewController.swift in Sources */,
+				E6B9A6AC2A1A4D2F00F8E6BC /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
